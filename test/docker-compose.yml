@@ -1,0 +1,25 @@
+version: '2'
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:7.10.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - /home/shiwenhui/data/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /home/shiwenhui/data/elasticsearch/data:/usr/share/elasticsearch/data
+      - /home/shiwenhui/data/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    environment:
+      - "ES_JAVA_OPTS=-Xms64m -Xmx128m"
+      - "discovery.type=single-node"
+      - "COMPOSE_PROJECT_NAME=elasticsearch-server"
+    restart: always
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.10.1
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+    ports:
+      - "5601:5601"
