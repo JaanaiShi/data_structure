@@ -53,27 +53,66 @@ type ListNode struct {
 	return result
  }
 
- func swapPairs1(head *ListNode) *ListNode {
+func swapPairs1(head *ListNode) *ListNode {
+	// 失败
 	var (
-		result *ListNode = head
-		newHead *ListNode = head
-		pre *ListNode = head
+		
+		nextHead *ListNode = head
+		curHead *ListNode = head
 		flag  bool
 	)
 
-	for newHead != nil {
+	result := &ListNode{
+		Next: head,
+	}
+
+	pre := result
+
+	for curHead != nil {
 		if flag {
-			pre.Val, newHead.Val  = newHead.Val, pre.Val
+			// 交换节点
+			pre.Next = nextHead
+			nextHead.Next = curHead
+			
+			// 移动节点
+			pre = pre.Next
+			curHead = pre.Next
+			nextHead = curHead.Next
 			flag = false
 		}else {
 			flag = true
+			pre = curHead
+			curHead = curHead.Next
+			nextHead = curHead.Next
 		}
-		pre = newHead
-		newHead = newHead.Next
+		
 	}
 
-	return result
- }
+	return result.Next
+}
+
+// 官方版本
+func swapPairs2(head *ListNode) *ListNode {
+	dummy := &ListNode{
+		Next: head,
+	}
+
+	pre := dummy
+	for head != nil && head.Next != nil {
+		// 交换节点
+		pre.Next = head.Next
+		next := head.Next.Next
+		head.Next.Next = head
+		head.Next = next
+
+		// 重新指向节点
+		pre = head
+		head = next
+
+	}
+
+	return dummy.Next
+}
 
  func ForEach(head *ListNode) {
 	var (
@@ -89,7 +128,7 @@ type ListNode struct {
 
  }
 
- func main() {
+func main() {
 	link := &ListNode{
 		Val: 1,
 		Next: &ListNode{
@@ -104,7 +143,7 @@ type ListNode struct {
 		},
 	}
 
-	ForEach(swapPairs(link))
+	ForEach(swapPairs2(link))
 
 
- }
+}
