@@ -41,17 +41,5 @@ func detectCycle1(head *ListNode) *ListNode {
 }
 
 func main() {
-	head := &ListNode{
-		Val: 2,
-		Next: &ListNode{
-			Val: 0,
-			Next: &ListNode{
-				Val: 1,
-				Next: &ListNode{
-					Val: 4,
-					Next: ,
-				},
-			},
-		},
-	}
+	
 }
