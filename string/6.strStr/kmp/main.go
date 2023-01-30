@@ -1,0 +1,49 @@
+package main
+
+import "fmt"
+
+// 方法二: 前缀表无减一或者右移
+
+// getNext 构造前缀表next
+// params:
+//		  next 前缀表数组
+//		  s 模式串
+func getNext(next []int, s string) {
+	j := 0
+	next[0] = j
+	for i := 1; i < len(s); i++ {
+		for j > 0 && s[i] != s[j] {
+			j = next[j-1]
+		}
+		if s[i] == s[j] {
+			j++
+		}
+		next[i] = j
+	}
+}
+
+func strStr(haystack string, needle string) int {
+	n := len(needle)
+	if n == 0 {
+		return 0
+	}
+	j := 0
+	next := make([]int, n)
+	getNext(next, needle)
+	for i := 0; i < len(haystack); i++ {
+		for j > 0 && haystack[i] != needle[j] {
+			j = next[j-1]      // 回退到j的前一位
+		}
+		if haystack[i] == needle[j] {
+			j++
+		}
+		if j == n {
+			return i - n + 1
+		}
+	}
+	return -1
+}
+
+func main() {
+	fmt.Println(strStr("abcdefgabcdex", "abcabx"))
+}
