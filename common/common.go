@@ -20,3 +20,19 @@ func PrintLink(head *ListNode) {
         head = head.Next
     }
 }
+
+
+func PreOrder(root *TreeNode) {
+
+    if root == nil {
+        return 
+    }
+
+    fmt.Println(root.Val)
+
+    PreOrder(root.Left)
+
+    PreOrder(root.Right)
+
+
+}
