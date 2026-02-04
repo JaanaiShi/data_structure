@@ -1,6 +1,6 @@
 module leetcode
 
-go 1.19
+go 1.24.1
 
 require github.com/json-iterator/go v1.1.12
 
