@@ -22,13 +22,14 @@ func lengthOfLongestSubstring(s string) int {
 	maxLength := len(notDuplication)
 	for fast < len(s) {
 		if _, ok := notDuplication[s[fast]]; ok {
-			slow++
 			delete(notDuplication, s[slow])
-			maxLength = len(notDuplication)
+			slow++
 			continue
 		} else {
 			notDuplication[s[fast]] = struct{}{}
-			maxLength = len(notDuplication)
+			if len(notDuplication) > maxLength {
+				maxLength = len(notDuplication)
+			}
 		}
 		fast++
 	}
