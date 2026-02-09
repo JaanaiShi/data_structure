@@ -6,17 +6,21 @@ import (
 
 // firstUniqChar 找到字符串中第一个不重复的字符，并返回其索引。如果不存在，返回 -1。
 func firstUniqChar(s string) int {
-	if len(s) == 0 {
-		return -1
-	} else if len(s) == 1 {
-		return 0
-	}
-	slow, fast := 0, 1
-	for slow < len(s) && fast < len(s) {
-		if s[slow] != s[fast] {
-			if fast+1 < len(s) && s[fast] != 
+	sMap := make(map[byte]int, len(s))
+	for i := 0; i < len(s); i++ {
+		if v, ok := sMap[s[i]]; ok {
+			v++
+			sMap[s[i]] = v
+		} else {
+			sMap[s[i]] = 1
 		}
 	}
+	for i := 0; i < len(s); i++ {
+		if v := sMap[s[i]]; v == 1 {
+			return i
+		}
+	}
+	return -1
 }
 
 func main() {

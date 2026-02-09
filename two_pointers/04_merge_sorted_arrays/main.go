@@ -11,7 +11,24 @@ import (
 // 题目要求：
 // 合并两个有序数组（不允许使用内建排序）
 func mergeSimple(nums1 []int, nums2 []int) []int {
-	panic("unimplemented")
+	pre, cur := 0, 0
+	res := make([]int, 0, len(nums1))
+	for pre < len(nums1) && cur < len(nums2) {
+		if nums1[pre] <= nums2[cur] {
+			res = append(res, nums1[pre])
+			pre++
+		} else {
+			res = append(res, nums2[cur])
+			cur++
+		}
+	}
+	if pre < len(nums1) {
+		res = append(res, nums1[pre:]...)
+	}
+	if cur < len(nums2) {
+		res = append(res, nums2[cur:]...)
+	}
+	return res
 }
 
 func main() {
