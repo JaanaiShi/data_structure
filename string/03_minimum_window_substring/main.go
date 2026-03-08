@@ -12,8 +12,56 @@ import (
 // 示例 3: 输入: s = "a", t = "aa" 输出: "" (t 中有两个 'a'，s 中只有一个)
 // 提示: 1 <= s.length, t.length <= 10^5, s 和 t 由英文字母组成
 func minWindow(s string, t string) string {
-	// TODO: 实现滑动窗口解法
-	return ""
+	if len(t) == 0 || len(t) > len(s) {
+		return ""
+	}
+	var (
+		need   = [128]int{}
+		window = [128]int{}
+	)
+
+	for i := 0; i < len(t); i++ {
+		need[t[i]]++
+	}
+
+	var (
+		start, minLen = 0, 0
+		having        = 0
+		left, right   = 0, 0
+	)
+	for right < len(s) {
+		temp := s[right]
+		right++
+
+		if need[temp] > 0 {
+			window[temp]++
+			if window[temp] <= need[temp] {
+				having++
+			}
+		}
+
+		// 左指针走，找最小的范围
+		for having == len(t) {
+			temp := s[left]
+			// 找到一样的值则退出
+			if need[temp] > 0 {
+				// 和之前的比较
+				if right-left < minLen || minLen == 0 {
+					start = left
+					minLen = right - left
+				}
+				window[temp]--
+				if window[temp] < need[temp] {
+					having--
+				}
+			}
+			left++
+		}
+	}
+	if minLen == 0 {
+		return ""
+	}
+	return s[start : start+minLen]
 }
 
 func main() {
